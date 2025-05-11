@@ -6,9 +6,29 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
     </head>
-    <body>
-        <!-- Add base html here. -->
-        
-        {% block content %}{% endblock %}
-    </body>
+    <body class="flex flex-col min-h-screen bg-gray-50 text-gray-900">
+        <!-- navbar -->
+        <nav class="flex justify-between items-center px-6 py-4 bg-white border-b border-gray-200 shadow-sm">
+          <div class="text-xl font-bold text-black">🎬 MovieBin</div>
+          <div class="space-x-4 text-sm">
+            {% if current_user.is_authenticated %}
+              <a href="/watchlist" class="text-black hover:underline">My Watchlist</a>
+              <a href="/logout" class="text-black hover:underline">Logout</a>
+            {% else %}
+              <a href="/signup" class="text-black hover:underline">Sign Up</a>
+              <a href="/login" class="text-black hover:underline">Log In</a>
+            {% endif %}
+          </div>
+        </nav>
+      
+        <!-- main content -->
+        <main class="flex-grow max-w-3xl mx-auto px-4 py-8">
+          {% block content %}{% endblock %}
+        </main>
+      
+        <!-- footer -->
+        <footer class="text-center text-sm text-gray-500 py-4 border-t border-gray-200 bg-white">
+          &copy; 2025 MovieBin. All rights reserved.
+        </footer>
+    </body>      
 </html>
