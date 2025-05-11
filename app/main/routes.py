@@ -9,11 +9,13 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def home():
+    """Render the home page"""
     return render_template('home.html')
 
 @main.route('/watchlist')
 @login_required
 def watchlist():
+    """Render the current user's movie watchlist."""
     return render_template('watchlist.html') 
 
 @main.route('/create_movie', methods=['GET', 'POST'])
