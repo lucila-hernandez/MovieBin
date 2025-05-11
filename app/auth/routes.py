@@ -50,4 +50,13 @@ def login():
 
     return render_template('login.html', form=form)
 
-
+@auth.route('/logout')
+@login_required
+def logout():
+    """
+    Logs the current user out and redirects to the homepage.
+    Displays a flash message confirming logout.
+    """
+    logout_user()
+    flash("You have been logged out.")
+    return redirect(url_for('main.home'))
