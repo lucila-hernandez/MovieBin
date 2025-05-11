@@ -18,6 +18,7 @@ class Movie(db.Model):
     release_year = db.Column(db.Integer)
     genre = db.Column(db.String(80))
     director = db.Column(db.String(80))
+    photo_url = db.Column(db.String(1000))
 
     users = db.relationship('UserMovie', backref='movie', lazy=True)
 

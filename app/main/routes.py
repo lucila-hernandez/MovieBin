@@ -26,7 +26,8 @@ def create_movie():
             title = form.title.data,
             release_year = form.release_year.data,
             genre = form.genre.data,
-            director = form.director.data
+            director = form.director.data,
+            photo_url=form.photo_url.data
         )
         db.session.add(new_movie)
         db.session.commit()
@@ -34,3 +35,23 @@ def create_movie():
         flash('New movie has been created sucessfully 🍿')
         return redirect(url_for('main.movie_detail', movie_id=new_movie.id))
     return render_template('create_movie.html', form=form)
+
+@main.route('/movie/<int:movie_id>', methods=['GET', 'POST'])
+@login_required
+def movie_detail(movie_id):
+    movie = Movie.query.get(movie_id)
+    form = CreateMovieForm(obj=movie)
+
+    form.submit.label.text = "Update Movie"
+
+    if form.validate_on_submit():
+        movie.title = form.title.data
+        movie.release_year = form.release_year.data
+        movie.genre = form.genre.data
+        movie.director = form.director.data
+        movie.photo_url = form.photo_url.data
+        db.session.commit()
+        flash("Movie updated successfully! 🍿")
+        return redirect(url_for('main.movie_detail', movie_id=movie.id))
+
+    return render_template('movie_detail.html', movie=movie, form=form)
