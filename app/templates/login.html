@@ -2,8 +2,8 @@
 {% block content %}
 
 <div class="flex items-center justify-center min-h-[70vh]">
-  <form action="/signup" method="POST" class="w-[350px]">
-    <h1 class="text-2xl font-bold mb-6 text-center">Sign Up</h1>
+  <form action="/login" method="POST" class="w-[350px]">
+    <h1 class="text-2xl font-bold mb-6 text-center">Log In</h1>
 
     {{ form.csrf_token }}
 
@@ -25,7 +25,6 @@
       {% endfor %}
     </div>
 
-    <!-- submit -->
     {{ form.submit(class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center") }}
   </form>
 </div>
