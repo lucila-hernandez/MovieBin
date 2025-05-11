@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app.extensions import db, bcrypt
 
 from app.models import User, Movie, WatchStatus, UserMovie
-from app.auth.form import SignupForm
+from app.auth.forms import SignupForm
 
 auth = Blueprint('auth', __name__)
 
