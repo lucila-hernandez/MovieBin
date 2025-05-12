@@ -22,11 +22,13 @@ class Movie(db.Model):
 
     users = db.relationship('UserMovie', backref='movie', lazy=True)
 
+"""
 class WatchStatus(enum.Enum):
-    """Enum for movie watch status."""
+    Enum for movie watch status.
     WATCHED = "Watched"
     PLAN_TO_WATCH = "Plan to Watch"
     IN_PROGRESS = "In Progress"
+"""
 
 class UserMovie(db.Model):
     """Links a user to a movie with custom status, rating, and notes."""
