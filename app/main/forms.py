@@ -22,12 +22,12 @@ class CreateMovieForm(FlaskForm):
 class UserMovieForm(FlaskForm):
     """Form for tracking user's relationship with a movie."""
     rating = SelectField(
-        'Rating',
+        'Rating: ',
         choices=[
             ('1', '⭐'), ('2', '⭐⭐'), ('3', '⭐⭐⭐'),
             ('4', '⭐⭐⭐⭐'), ('5', '⭐⭐⭐⭐⭐')
         ],
         validators=[DataRequired()]
     )
-    watched_date = DateField('Watched Date', validators=[DataRequired()])
+    watched_date = DateField('Watched Date: ', validators=[DataRequired()])
     submit = SubmitField('Save Tracking Info')

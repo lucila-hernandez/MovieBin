@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1 class="text-3xl font-bold text-center text-black mb-6">🎥 Your Watchlist</h1>
+<h1 class="text-3xl font-bold text-center text-black mb-6">🎥 My Movies</h1>
 
 {% if movies %}
   <div class="space-y-6 max-w-4xl mx-auto">
@@ -22,7 +22,7 @@
     {% endfor %}
   </div>
 {% else %}
-  <p class="text-center text-gray-500 mt-10">Your watchlist is empty. 🍿</p>
+  <p class="text-center text-gray-500 mt-10">Your movie log is empty. 🍿</p>
 {% endif %}
 
 {% endblock %}
