@@ -34,6 +34,5 @@ class UserMovie(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'), nullable=False)
     
-    status = db.Column(db.Enum(WatchStatus), nullable=False)
     rating = db.Column(db.Integer)
     watched_date = db.Column(db.Date)

@@ -3,22 +3,23 @@
 
 <div class="flex justify-center min-h-[70vh]">
   <div class="w-[400px]">
+
     <!-- Movie Info Section -->
     <div class="text-center mb-10">
-    {% if movie.photo_url %}
+      {% if movie.photo_url %}
         <img src="{{ movie.photo_url }}" alt="{{ movie.title }} poster" class="mx-auto mb-4 rounded shadow-md w-60">
-    {% endif %}
-        <h1 class="text-3xl font-bold text-blue-700 mb-2">{{ movie.title }}</h1>
-        <p class="text-gray-700 mb-1"><strong>Release Year:</strong> {{ movie.release_year }}</p>
-        <p class="text-gray-700 mb-1"><strong>Genre:</strong> {{ movie.genre }}</p>
-        <p class="text-gray-700 mb-1"><strong>Director:</strong> {{ movie.director }}</p>
+      {% endif %}
+      <h1 class="text-3xl font-bold text-blue-700 mb-2">{{ movie.title }}</h1>
+      <p class="text-gray-700 mb-1"><strong>Release Year:</strong> {{ movie.release_year }}</p>
+      <p class="text-gray-700 mb-1"><strong>Genre:</strong> {{ movie.genre }}</p>
+      <p class="text-gray-700 mb-1"><strong>Director(s):</strong> {{ movie.director }}</p>
     </div>
 
-    <!-- Edit Form Section -->
+    <!-- Edit Movie Form -->
     <h2 class="text-xl font-semibold mb-4">Edit Movie</h2>
-    <form method="POST">
-        {{ form.csrf_token }}
-     
+    <form method="POST" action="">
+      {{ form.csrf_token }}
+
       <div class="mb-4">
         {{ form.title.label(class="block text-sm font-medium text-gray-700 mb-1") }}
         {{ form.title(class="w-full p-2 border border-gray-300 rounded") }}
@@ -27,7 +28,7 @@
       <div class="mb-4">
         {{ form.photo_url.label(class="block text-sm font-medium text-gray-700 mb-1") }}
         {{ form.photo_url(class="w-full p-2 border border-gray-300 rounded") }}
-      </div> 
+      </div>
 
       <div class="mb-4">
         {{ form.release_year.label(class="block text-sm font-medium text-gray-700 mb-1") }}
@@ -48,6 +49,27 @@
         {{ form.submit(class="w-full bg-blue-700 hover:bg-blue-800 text-white font-medium py-2 px-4 rounded") }}
       </div>
     </form>
+
+    <!-- Track Movie Form -->
+    <h2 class="text-xl font-semibold mt-10 mb-4">Your Rating</h2>
+    <form method="POST" action="">
+      {{ user_form.csrf_token }}
+
+      <div class="mb-4">
+        {{ user_form.rating.label(class="block text-sm font-medium text-gray-700 mb-1") }}
+        {{ user_form.rating(class="w-full p-2 border border-gray-300 rounded") }}
+      </div>
+
+      <div class="mb-4">
+        {{ user_form.watched_date.label(class="block text-sm font-medium text-gray-700 mb-1") }}
+        {{ user_form.watched_date(class="w-full p-2 border border-gray-300 rounded") }}
+      </div>
+
+      <div class="mt-6">
+        {{ user_form.submit(class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded") }}
+      </div>
+    </form>
+
   </div>
 </div>
 

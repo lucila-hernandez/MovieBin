@@ -1,8 +1,8 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from datetime import date, datetime
-from app.main.forms import CreateMovieForm
-from app.models import Movie
+from app.main.forms import CreateMovieForm, UserMovieForm
+from app.models import Movie, UserMovie
 from app.extensions import app, bcrypt, db
 
 main = Blueprint('main', __name__)
@@ -16,11 +16,17 @@ def home():
 @login_required
 def watchlist():
     """Render the current user's movie watchlist."""
-    return render_template('watchlist.html') 
+    movies = Movie.query.all()  
+    return render_template('watchlist.html', movies=movies)
 
 @main.route('/create_movie', methods=['GET', 'POST'])
 @login_required
 def create_movie():
+    """
+    Display the create movie form and handle form submission.
+    If the form is valid, save the new movie to the database.
+    Flash a success message, and redirect to the movie detail page.
+    """
     form = CreateMovieForm()
 
     if form.validate_on_submit():
@@ -41,19 +47,27 @@ def create_movie():
 @main.route('/movie/<int:movie_id>', methods=['GET', 'POST'])
 @login_required
 def movie_detail(movie_id):
+    """
+    Display and edit a specific movie by ID.
+    Shows movie information and allows users to update it.
+    """
     movie = Movie.query.get(movie_id)
     form = CreateMovieForm(obj=movie)
-
     form.submit.label.text = "Update Movie"
 
-    if form.validate_on_submit():
-        movie.title = form.title.data
-        movie.release_year = form.release_year.data
-        movie.genre = form.genre.data
-        movie.director = form.director.data
-        movie.photo_url = form.photo_url.data
+    user_movie = UserMovie.query.filter_by(user_id=current_user.id, movie_id=movie.id).first()
+    if not user_movie:
+        user_movie = UserMovie(user_id=current_user.id, movie_id=movie.id)
+        db.session.add(user_movie)
         db.session.commit()
-        flash("Movie updated successfully! 🍿")
+
+    user_form = UserMovieForm(obj=user_movie)
+
+    if user_form.validate_on_submit() and user_form.submit.data:
+        user_movie.rating = int(user_form.rating.data)
+        user_movie.watched_date = user_form.watched_date.data
+        db.session.commit()
+        flash("Your movie rating has been updated 🎬")
         return redirect(url_for('main.movie_detail', movie_id=movie.id))
 
-    return render_template('movie_detail.html', movie=movie, form=form)
+    return render_template('movie_detail.html', movie=movie, form=form, user_form=user_form)
