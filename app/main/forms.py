@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, Length, ValidationError, URL
 from app.models import User
 
 class CreateMovieForm(FlaskForm):
-    """Defines the inputs that will be on the signup form and how they are validated."""
+    """Form for adding or editing a movie, including title, year, genre, director, and image URL."""
     title = StringField('Movie Title:', validators=[DataRequired(), Length(min=1, max=200)])
     release_year = IntegerField('Release Year:')
     genre = StringField('Movie Genre:', validators=[DataRequired(), Length(min=1, max=200)])
