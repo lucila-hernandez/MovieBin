@@ -12,18 +12,21 @@ app.register_blueprint(main)
 
 # Helpers
 def create_user():
+    """Creates a test user with username 'me1' and password 'password'."""
     password_hash = bcrypt.generate_password_hash('password').decode('utf-8')
     user = User(username='me1', password=password_hash)
     db.session.add(user)
     db.session.commit()
 
 def login(client):
+    """Logs in the test user using the test client."""
     return client.post('/login', data={
         'username': 'me1',
         'password': 'password'
     }, follow_redirects=True)
 
 def create_movie():
+    """Creates and returns a sample movie for testing."""
     movie = Movie(
         title="Happy Feet",
         release_year=2006,
@@ -37,6 +40,10 @@ def create_movie():
 
 # Tests
 class MainTests(TestCase):
+    """
+    Tests for MovieBin main routes: homepage, movie creation, movie detail,
+    and access control for the movie log.
+    """
     def setUp(self):
         app.config['TESTING'] = True
         app.config['WTF_CSRF_ENABLED'] = False

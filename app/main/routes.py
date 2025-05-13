@@ -47,6 +47,11 @@ def create_movie():
 @main.route('/delete_movie/<int:movie_id>', methods=['POST'])
 @login_required
 def delete_movie(movie_id):
+    """
+    Delete a movie and its associated user tracking data.
+    Removes the Movie entry and any related UserMovie records from the database.
+    Redirects the user back to their movie log with a success message.
+    """
     movie = Movie.query.get(movie_id)
     UserMovie.query.filter_by(movie_id=movie.id).delete()
     db.session.delete(movie)
@@ -59,8 +64,12 @@ def delete_movie(movie_id):
 @login_required
 def movie_detail(movie_id):
     """
-    Display and edit a specific movie by ID.
-    Shows movie information and allows users to update it.
+    Display the detail page for a specific movie.
+
+    Shows movie information including title, year, genre, director, and photo.
+    Allows the user to edit movie details using CreateMovieForm.
+    Allows the user to track their rating and watched date using UserMovieForm.
+    Handles both forms in a single view.
     """
     movie = Movie.query.get(movie_id)
     form = CreateMovieForm(obj=movie)
@@ -74,7 +83,19 @@ def movie_detail(movie_id):
 
     user_form = UserMovieForm(obj=user_movie)
 
-    if user_form.validate_on_submit() and user_form.submit.data:
+    # Handle movie update form
+    if form.submit.data and form.validate_on_submit():
+        movie.title = form.title.data
+        movie.release_year = form.release_year.data
+        movie.genre = form.genre.data
+        movie.director = form.director.data
+        movie.photo_url = form.photo_url.data
+        db.session.commit()
+        flash("Movie updated successfully! 🍿")
+        return redirect(url_for('main.movie_detail', movie_id=movie.id))
+
+    # Handles user rating update form
+    elif user_form.submit.data and user_form.validate_on_submit():
         user_movie.rating = int(user_form.rating.data)
         user_movie.watched_date = user_form.watched_date.data
         db.session.commit()
