@@ -64,12 +64,9 @@ def delete_movie(movie_id):
 @login_required
 def movie_detail(movie_id):
     """
-    Display the detail page for a specific movie.
-
-    Shows movie information including title, year, genre, director, and photo.
-    Allows the user to edit movie details using CreateMovieForm.
-    Allows the user to track their rating and watched date using UserMovieForm.
-    Handles both forms in a single view.
+    Display movie detail page. 
+    Allows the user to edit movie info and save their personal rating and watched date.
+    Handles two forms, one for movie info and one for user tracking data.    
     """
     movie = Movie.query.get(movie_id)
     form = CreateMovieForm(obj=movie)
@@ -83,23 +80,23 @@ def movie_detail(movie_id):
 
     user_form = UserMovieForm(obj=user_movie)
 
-    # Handle movie update form
-    if form.submit.data and form.validate_on_submit():
+    # Handle Update Movie form
+    if "movie_submit" in request.form and form.validate_on_submit():
         movie.title = form.title.data
         movie.release_year = form.release_year.data
         movie.genre = form.genre.data
         movie.director = form.director.data
         movie.photo_url = form.photo_url.data
         db.session.commit()
-        flash("Movie updated successfully! 🍿")
+        flash("Movie updated successfully! 🎬")
         return redirect(url_for('main.movie_detail', movie_id=movie.id))
 
-    # Handles user rating update form
-    elif user_form.submit.data and user_form.validate_on_submit():
+    # Handle Save Tracking Info form
+    if "rating_submit" in request.form and user_form.validate_on_submit():
         user_movie.rating = int(user_form.rating.data)
         user_movie.watched_date = user_form.watched_date.data
         db.session.commit()
-        flash("Your movie rating has been updated 🎬")
+        flash("Your movie rating has been updated ⭐")
         return redirect(url_for('main.movie_detail', movie_id=movie.id))
 
-    return render_template('movie_detail.html', movie=movie, form=form, user_form=user_form)
+    return render_template("movie_detail.html", movie=movie, form=form, user_form=user_form)

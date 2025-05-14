@@ -6,7 +6,7 @@
     <h1 class="text-3xl font-bold text-black mb-4">🎬 Welcome to MovieBin</h1>
 
     {% if current_user.is_authenticated %}
-      <p class="text-gray-600">Hi {{ current_user.username }}! Ready to add a new movie or check your watchlist?</p>
+      <p class="text-gray-600">Hi {{ current_user.username }}! Ready to add a new movie or check your movie log?</p>
     {% else %}
       <p class="text-gray-600">Start by signing up or logging in to build your movie list.</p>
     {% endif %}

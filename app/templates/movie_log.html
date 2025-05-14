@@ -16,7 +16,23 @@
           <p class="text-sm text-gray-600"><strong>Year:</strong> {{ movie.release_year }}</p>
           <p class="text-sm text-gray-600"><strong>Genre:</strong> {{ movie.genre }}</p>
           <p class="text-sm text-gray-600"><strong>Director(s):</strong> {{ movie.director }}</p>
-          <a href="{{ url_for('main.movie_detail', movie_id=movie.id) }}" class="text-sm text-blue-600 hover:underline mt-2">View / Edit</a>
+
+          {% set user_movie = movie.users | selectattr('user_id', 'equalto', current_user.id) | first %}
+          {% if user_movie %}
+          {% if user_movie.rating %}
+              <p class="text-sm text-gray-600 mb-1"><strong>Your Rating:</strong> {{ '⭐' * user_movie.rating }}</p>
+            {% else %}
+              <p class="text-sm text-gray-600 mb-1"><strong>Your Rating:</strong> Not yet rated</p>
+            {% endif %}
+            
+            {% if user_movie.watched_date %}
+              <p class="text-sm text-gray-600 mb-1"><strong>Watched On:</strong> {{ user_movie.watched_date.strftime('%B %d, %Y') }}</p>
+            {% else %}
+              <p class="text-sm text-gray-600 mb-1"><strong>Watched On:</strong> Not set</p>
+            {% endif %}
+          {% endif %}
+
+          <a href="{{ url_for('main.movie_detail', movie_id=movie.id) }}" class="text-sm text-blue-600 hover:underline mt-2">Edit</a>
         </div>
       </div>
     {% endfor %}
