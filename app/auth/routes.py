@@ -34,7 +34,7 @@ def login():
     """
     Handles both GET and POST for the login page.
     Verifies the username and password against the database using bcrypt.
-    If credentials are valid, logs the user in and redirects to the next page or homepage.
+    If credentials are valid, logs the user in and redirects to the next page.
     Displays a flash message for success or failure.
     """
     form = LoginForm()
